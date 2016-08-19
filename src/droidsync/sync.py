@@ -52,6 +52,20 @@ def get_relative_filenames(directory):
     return ret
 
 
+def generate_m3u8(name, tracks):
+    # Remove m3u8 file if exists
+    if os.path.exists(name):
+        os.remove(name)
+
+    # Create file
+    print(u'Generate {}.m3u8'.format(name))
+    file = open(name + ".m3u8", "w")
+    file.write("#EXTM3U\n")
+    for t in tracks:
+        file.write(("#EXTINF:\n" + t + '\n').encode('utf-8'))
+
+    file.close()
+
 def clean_droid_dir(directory):
     """
     Clean empty directories
@@ -74,15 +88,20 @@ def sync_playlist(playlist_names, target_directory, add_only=False):
     # http://www.math.columbia.edu/%7Ebayer/Python/iTunes/
     files_in_playlists = []
     print_header(u"Collecting tracks")
+    playlists = {}
     for playlist in app('iTunes').user_playlists():
         if playlist.name() in playlist_names:
             print(u'Include playlist "{}"'.format(playlist.name()))
+	    p = []
             for t in playlist.file_tracks():
+                p.append(t.location().path)
                 files_in_playlists.append(t.location().path)
+	    playlists[playlist.name()] = p
 
     itunes_music_folder = os.path.commonprefix(files_in_playlists)
     files_in_playlists = \
         [f.replace(itunes_music_folder, '') for f in files_in_playlists]
+
     files_on_droid = get_relative_filenames(target_directory)
 
     to_be_copied = [x for x in files_in_playlists if x not in files_on_droid]
@@ -125,6 +144,11 @@ def sync_playlist(playlist_names, target_directory, add_only=False):
                 os.remove(os.path.join(target_directory, f))
         else:
             print(u"Nothing to remove.")
+
+    print_header(u"Generating Playlists")
+    for n, l in playlists.iteritems():
+	    l = [f.replace(itunes_music_folder, '') for f in l]
+	    generate_m3u8(os.path.join(target_directory, n), l)
 
     clean_droid_dir(target_directory)
 
