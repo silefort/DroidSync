@@ -27,11 +27,11 @@ will be updated.
 
 Examples:
 
-- Copy all tracks from iTunes playlists "Droid" and "My party mix" to the folder
-  `/Volumes/Droid/Music` and remove all files from the target folder, that are
+- Copy all tracks from iTunes playlists "Phone", "News" and "Loved Tracks" to the folder
+  `~/Music/DroidSync` and remove all files from the target folder, that are
   not part of any playlist.
 
-        droidsync Droid Phone News "Loved Tracks" ~/Music/DroidSync
+        droidsync Phone News "Loved Tracks" ~/Music/DroidSync
 
 - Copy all tracks from iTunes playlist "My party mix" to the folder
   `/Volumes/Droid/Music` and leave all files in the target folder as they are.
