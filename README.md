@@ -7,7 +7,7 @@ Currently it needs the target folder mounted as USB mass storage.
 
 Clone the project from GitHub and install it:
 
-    git clone git://github.com/almonteb/DroidSync.git
+    git clone git://github.com/silefort/DroidSync.git
     cd /path/to/project/DroidSync
     pip install -r requirements.txt
     python setup.py install
@@ -31,7 +31,7 @@ Examples:
   `/Volumes/Droid/Music` and remove all files from the target folder, that are
   not part of any playlist.
 
-        droidsync Droid "My party mix" /Volumes/Droid/Music
+        droidsync Droid Phone News "Loved Tracks" ~/Music/DroidSync
 
 - Copy all tracks from iTunes playlist "My party mix" to the folder
   `/Volumes/Droid/Music` and leave all files in the target folder as they are.
